@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VERTO — гардероб, который не нужно покупать</title>
+<style>
+  :root {
+    --cream: #F4F0E8;
+    --paper: #FFFFFF;
+    --ink: #14110F;
+    --muted: #6B6459;
+    --line: #E2DCD1;
+    --accent: #C14E31;
+    --accent-soft: #F4E4DE;
+    --olive: #4A5340;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .display {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- HEADER ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(244,240,232,0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    height: 68px; max-width: 1140px; margin: 0 auto; padding: 0 24px;
+  }
+  .logo {
+    font-family: Georgia, serif; font-size: 22px; letter-spacing: 0.08em;
+    font-weight: 700; color: var(--ink); text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  nav.links { display: flex; gap: 32px; }
+  nav.links a {
+    color: var(--ink); text-decoration: none; font-size: 14px;
+    letter-spacing: 0.02em; transition: color 0.2s; position: relative;
+  }
+  nav.links a:hover { color: var(--accent); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 24px; border-radius: 999px; font-size: 14px;
+    font-weight: 500; text-decoration: none; cursor: pointer;
+    border: 1px solid transparent; transition: all 0.2s; font-family: inherit;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary { background: var(--ink); color: var(--cream); }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-ghost { border-color: var(--ink); color: var(--ink); background: transparent; }
+  .btn-ghost:hover { background: var(--ink); color: var(--cream); }
+  .btn-sm { padding: 9px 18px; font-size: 13px; }
+
+  .burger {
+    display: none; background: none; border: none; cursor: pointer;
+    width: 40px; height: 40px; padding: 8px; flex-direction: column;
+    justify-content: space-between;
+  }
+  .burger span { display: block; height: 1.5px; background: var(--ink); border-radius: 2px; }
+
+  /* ---------- HERO ---------- */
+  .hero { padding: 90px 0 70px; }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: end;
+  }
+  .eyebrow {
+    font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 22px;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before {
+    content: ''; width: 28px; height: 1px; background: var(--accent);
+  }
+  h1 {
+    font-size: clamp(40px, 7vw, 84px); margin-bottom: 26px;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero p.lead {
+    font-size: clamp(16px, 1.6vw, 19px); color: var(--muted);
+    max-width: 560px; margin-bottom: 34px; line-height: 1.55;
+  }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .hero-visual {
+    aspect-ratio: 3/4; border-radius: 4px; position: relative; overflow: hidden;
+    background:
+      radial-gradient(circle at 30% 20%, #E8C8B8 0%, transparent 55%),
+      radial-gradient(circle at 75% 80%, #A8B098 0%, transparent 55%),
+      linear-gradient(160deg, #D9C7B8 0%, #B5A99B 100%);
+  }
+  .hero-visual::after {
+    content: 'SS / 26';
+    position: absolute; bottom: 18px; left: 20px;
+    font-family: Georgia, serif; font-size: 12px;
+    letter-spacing: 0.24em; color: rgba(20,17,15,0.55);
+  }
+  .hero-badge {
+    position: absolute; top: 18px; right: 18px;
+    background: var(--cream); padding: 8px 14px; border-radius: 999px;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 600; color: var(--ink);
+  }
+
+  /* ---------- STATS STRIP ---------- */
+  .stats-strip {
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 34px 0; margin-top: 60px;
+  }
+  .stats-strip-inner {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  }
+  .stat .num {
+    font-family: Georgia, serif; font-size: clamp(28px, 3.4vw, 40px);
+    line-height: 1; margin-bottom: 8px; color: var(--ink);
+  }
+  .stat .num small { font-size: 0.5em; color: var(--accent); }
+  .stat .lbl { font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+
+  /* ---------- SECTIONS ---------- */
+  section.block { padding: 100px 0; }
+  .section-head { margin-bottom: 56px; max-width: 720px; }
+  .section-head h2 {
+    font-size: clamp(30px, 4.4vw, 52px); margin-bottom: 16px;
+  }
+  .section-head p { color: var(--muted); font-size: 17px; max-width: 560px; }
+
+  /* ---------- PROBLEM ---------- */
+  .problem-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .problem-card {
+    background: var(--paper); padding: 36px 30px; border-radius: 4px;
+    border: 1px solid var(--line); transition: transform 0.3s;
+  }
+  .problem-card:hover { transform: translateY(-4px); }
+  .problem-card .big {
+    font-family: Georgia, serif; font-size: 52px; line-height: 1;
+    color: var(--accent); margin-bottom: 18px;
+  }
+  .problem-card h3 { font-size: 17px; margin-bottom: 10px; font-weight: 600; }
+  .problem-card p { color: var(--muted); font-size: 14.5px; }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .how-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    counter-reset: step;
+  }
+  .step {
+    padding-top: 26px; border-top: 1px solid var(--ink); position: relative;
+    counter-increment: step;
+  }
+  .step::before {
+    content: '0' counter(step);
+    font-family: Georgia, serif; font-size: 13px; letter-spacing: 0.1em;
+    color: var(--accent); position: absolute; top: -9px;
+    background: var(--cream); padding-right: 12px;
+  }
+  .step h3 { font-size: 18px; margin-bottom: 10px; font-weight: 600; }
+  .step p { color: var(--muted); font-size: 14.5px; }
+
+  /* ---------- CATALOG ---------- */
+  .catalog-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;
+  }
+  .item { cursor: pointer; }
+  .item-img {
+    aspect-ratio: 3/4; border-radius: 3px; margin-bottom: 16px;
+    position: relative; overflow: hidden; transition: transform 0.5s;
+  }
+  .item:hover .item-img { transform: scale(1.02); }
+  .item-img span.tag {
+    position: absolute; top: 14px; left: 14px;
+    background: rgba(255,255,255,0.9); padding: 5px 11px; border-radius: 999px;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 600;
+  }
+  .item h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .item .brand { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .item .price {
+    font-family: Georgia, serif; font-size: 17px; color: var(--ink);
+  }
+  .item .price small { font-size: 12px; color: var(--muted); font-family: inherit; }
+
+  .g1 { background: linear-gradient(150deg, #E5D2C2, #B89B82); }
+  .g2 { background: linear-gradient(150deg, #C5CBB5, #7B8570); }
+  .g3 { background: linear-gradient(150deg, #D4C0A8, #8A7358); }
+  .g4 { background: linear-gradient(150deg, #E0C4B8, #9E7362); }
+  .g5 { background: linear-gradient(150deg, #B8AEB5, #5C4F5C); }
+  .g6 { background: linear-gradient(150deg, #D9D0C2, #A99C88); }
+
+  /* ---------- DESIGNERS ---------- */
+  .designers {
+    background: var(--ink); color: var(--cream); border-radius: 6px;
+    padding: 70px 56px; display: grid;
+    grid-template-columns: 1fr 1fr; gap: 56px; align-items: center;
+  }
+  .designers .eyebrow { color: #D99A82; }
+  .designers .eyebrow::before { background: #D99A82; }
+  .designers h2 {
+    font-size: clamp(28px, 3.6vw, 44px); margin-bottom: 20px; color: var(--cream);
+  }
+  .designers p { color: #B8B0A4; margin-bottom: 26px; font-size: 16px; }
+  .designers ul { list-style: none; margin-bottom: 30px; }
+  .designers li {
+    padding: 12px 0; border-bottom: 1px solid #2C2823;
+    display: flex; justify-content: space-between; font-size: 14.5px;
+  }
+  .designers li span:last-child { color: #D99A82; font-family: Georgia, serif; }
+  .designers .btn-primary { background: var(--cream); color: var(--ink); }
+  .designers .btn-primary:hover { background: var(--accent); color: var(--cream); }
+
+  /* ---------- PRICING ---------- */
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+  }
+  .plan {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 6px; padding: 36px 30px;
+    display: flex; flex-direction: column; transition: all 0.3s;
+  }
+  .plan:hover { border-color: var(--ink); }
+  .plan.featured { background: var(--ink); color: var(--cream); border-color: var(--ink); position: relative; }
+  .plan.featured .plan-price small,
+  .plan.featured .plan-desc,
+  .plan.featured .plan-features li { color: #B8B0A4; }
+  .plan.featured .plan-features li::before { color: #D99A82; }
+  .plan-badge {
+    position: absolute; top: -12px; left: 30px;
+    background: var(--accent); color: var(--cream);
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 999px; font-weight: 600;
+  }
+  .plan h3 { font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 20px; font-weight: 600; }
+  .plan-price {
+    font-family: Georgia, serif; font-size: 40px; line-height: 1;
+    margin-bottom: 8px;
+  }
+  .plan-price small { font-size: 13px; font-family: inherit; color: var(--muted); font-weight: 400; }
+  .plan-desc { font-size: 13.5px; color: var(--muted); margin-bottom: 24px; min-height: 40px; }
+  .plan-features { list-style: none; margin-bottom: 30px; flex: 1; }
+  .plan-features li {
+    padding: 9px 0 9px 22px; position: relative;
+    font-size: 14px; color: var(--muted);
+  }
+  .plan-features li::before {
+    content: '—'; position: absolute; left: 0; color: var(--accent); font-weight: 600;
+  }
+  .plan .btn { width: 100%; }
+
+  /* ---------- IMPACT ---------- */
+  .impact-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    margin-top: 20px;
+  }
+  .impact-card {
+    text-align: center; padding: 40px 24px;
+    border: 1px solid var(--line); border-radius: 4px; background: var(--paper);
+  }
+  .impact-card .num {
+    font-family: Georgia, serif; font-size: 46px; line-height: 1;
+    color: var(--olive); margin-bottom: 12px;
+  }
+  .impact-card p { font-size: 14px; color: var(--muted); }
+
+  /* ---------- FAQ ---------- */
+  .faq-list { border-top: 1px solid var(--line); }
+  .faq-item { border-bottom: 1px solid var(--line); }
+  .faq-q {
+    width: 100%; background: none; border: none; text-align: left;
+    padding: 26px 0; font-family: inherit; font-size: 17px; font-weight: 500;
+    color: var(--ink); cursor: pointer; display: flex; justify-content: space-between;
+    align-items: center; gap: 20px; transition: color 0.2s;
+  }
+  .faq-q:hover { color: var(--accent); }
+  .faq-q .plus {
+    font-size: 22px; color: var(--accent); transition: transform 0.3s;
+    flex-shrink: 0; line-height: 1;
+  }
+  .faq-item.open .faq-q .plus { transform: rotate(45deg); }
+  .faq-a {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s;
+    color: var(--muted); font-size: 15px; line-height: 1.65;
+  }
+  .faq-item.open .faq-a { max-height: 400px; padding-bottom: 26px; }
+
+  /* ---------- FINAL CTA ---------- */
+  .final-cta {
+    text-align: center; padding: 110px 24px; background: var(--ink);
+    color: var(--cream); border-radius: 6px;
+  }
+  .final-cta h2 {
+    font-size: clamp(32px, 5vw, 60px); margin-bottom: 20px; color: var(--cream);
+  }
+  .final-cta p { color: #B8B0A4; max-width: 480px; margin: 0 auto 34px; }
+  .final-cta .btn-primary { background: var(--cream); color: var(--ink); }
+  .final-cta .btn-primary:hover { background: var(--accent); color: var(--cream); }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    padding: 60px 0 40px; border-top: 1px solid var(--line); margin-top: 100px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px;
+    margin-bottom: 50px;
+  }
+  .footer-grid h4 {
+    font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 18px; color: var(--muted); font-weight: 600;
+  }
+  .footer-grid a {
+    display: block; color: var(--ink); text-decoration: none;
+    font-size: 14px; margin-bottom: 10px; transition: color 0.2s;
+  }
+  .footer-grid a:hover { color: var(--accent); }
+  .footer-brand p { color: var(--muted); font-size: 14px; max-width: 300px; margin-top: 12px; }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 30px; border-top: 1px solid var(--line);
+    font-size: 12.5px; color: var(--muted); flex-wrap: wrap; gap: 12px;
+  }
+
+  /* ---------- REVEAL ---------- */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-visual { max-width: 380px; }
+    .problem-grid, .catalog-grid, .pricing-grid, .impact-grid { grid-template-columns: 1fr 1fr; }
+    .how-grid { grid-template-columns: 1fr 1fr; }
+    .designers { grid-template-columns: 1fr; padding: 50px 32px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .stats-strip-inner { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    nav.links, header .btn { display: none; }
+    .burger { display: flex; }
+    nav.links.open {
+      display: flex; position: absolute; top: 68px; left: 0; right: 0;
+      background: var(--cream); flex-direction: column;
+      padding: 20px 24px 30px; gap: 4px; border-bottom: 1px solid var(--line);
+    }
+    nav.links.open a { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+    .hero { padding: 50px 0 40px; }
+    section.block { padding: 70px 0; }
+    .problem-grid, .catalog-grid, .pricing-grid, .impact-grid, .how-grid {
+      grid-template-columns: 1fr;
+    }
+    .stats-strip-inner { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .final-cta { padding: 70px 24px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">V<span>E</span>RTO</a>
+    <nav class="links" id="navLinks">
+      <a href="#problem">Проблема</a>
+      <a href="#how">Как это работает</a>
+      <a href="#catalog">Каталог</a>
+      <a href="#designers">Дизайнерам</a>
+      <a href="#pricing">Тарифы</a>
+    </nav>
+    <a href="#pricing" class="btn btn-primary btn-sm">Арендовать</a>
+    <button class="burger" id="burger" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Fashion library · Москва</div>
+        <h1 class="display">Гардероб,<br>который не нужно <em>покупать</em></h1>
+        <p class="lead">
+          Арендуй дизайнерские вещи на любой случай — от вечернего платья
+          до делового костюма. Носи, возвращай, меняй. Без забитого шкафа
+          и выброшенных денег.
+        </p>
+        <div class="hero-cta">
+          <a href="#pricing" class="btn btn-primary">Выбрать тариф</a>
+          <a href="#how" class="btn btn-ghost">Как это работает →</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-badge">SS / 26 Collection</div>
+      </div>
+    </div>
+
+    <div class="stats-strip">
+      <div class="stats-strip-inner">
+        <div class="stat"><div class="num">1 240</div><div class="lbl">Вещей в обороте</div></div>
+        <div class="stat"><div class="num">4 800+</div><div class="lbl">Клиентов сервиса</div></div>
+        <div class="stat"><div class="num">38</div><div class="lbl">Локальных дизайнеров</div></div>
+        <div class="stat"><div class="num">92<small>%</small></div><div class="lbl">Вещей возвращаются в оборот</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEM ============ -->
+<section class="block" id="problem">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Проблема</div>
+      <h2 class="display">Мода стала одноразовой</h2>
+      <p>Люди покупают больше, носят меньше. Индустрия производит 100 млрд вещей в год — и треть из них не продаётся.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="big">7×</div>
+        <h3>Столько раз носится вещь</h3>
+        <p>В среднем покупатель надевает обновку 7 раз, прежде чем забросить её в дальний ящик.</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="big">10%</div>
+        <h3>Мировых выбросов CO₂</h3>
+        <p>Fashion-индустрия — второй по загрязнению сектор после нефтяного. Больше, чем все авиаперелёты вместе.</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="big">₽ 68k</div>
+        <h3>В год на «выходную» одежду</h3>
+        <p>Столько тратит городской житель 25–35 лет на вещи, которые надевает пару раз в сезон.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="block" id="how">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Как это работает</div>
+      <h2 class="display">Четыре шага — и вещь у тебя</h2>
+    </div>
+    <div class="how-grid">
+      <div class="step reveal">
+        <h3>Выбери</h3>
+        <p>Открой каталог, отфильтруй по размеру, случаю и бренду. Все вещи — оригиналы от дизайнеров и люксовых марок.</p>
+      </div>
+      <div class="step reveal">
+        <h3>Забронируй</h3>
+        <p>Выбери даты аренды. Курьер привезёт вещь за 2 часа по Москве или в пункт выдачи в твоём районе.</p>
+      </div>
+      <div class="step reveal">
+        <h3>Носи</h3>
+        <p>Носи 3 дня как своё. Не переживай — химчистка и мелкий ремонт уже включены в стоимость.</p>
+      </div>
+      <div class="step reveal">
+        <h3>Верни</h3>
+        <p>Курьер заберёт вещь прямо от двери. Хочешь оставить себе? Выкупай со скидкой 40%.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CATALOG ============ -->
+<section class="block" id="catalog">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Каталог</div>
+      <h2 class="display">Из чего выбрать</h2>
+      <p>6 из 1 240 позиций. Полный каталог — в приложении.</p>
+    </div>
+    <div class="catalog-grid">
+      <div class="item reveal">
+        <div class="item-img g1"><span class="tag">Новинка</span></div>
+        <h3>Пальто-оверсайз «Марина»</h3>
+        <div class="brand">Saint Laurent</div>
+        <div class="price">3 200 ₽ <small>/ 3 дня</small></div>
+      </div>
+      <div class="item reveal">
+        <div class="item-img g2"></div>
+        <h3>Костюм в клетку «Нора»</h3>
+        <div class="brand">12 Storeez</div>
+        <div class="price">3 800 ₽ <small>/ 3 дня</small></div>
+      </div>
+      <div class="item reveal">
+        <div class="item-img g3"><span class="tag">Хит</span></div>
+        <h3>Шёлковое платье «Ода»</h3>
+        <div class="brand">Tomi Kо</div>
+        <div class="price">4 500 ₽ <small>/ 3 дня</small></div>
+      </div>
+      <div class="item reveal">
+        <div class="item-img g4"></div>
+        <h3>Вечернее платье «Аврора»</h3>
+        <div class="brand">Valentin Yudashkin</div>
+        <div class="price">5 500 ₽ <small>/ 3 дня</small></div>
+      </div>
+      <div class="item reveal">
+        <div class="item-img g5"></div>
+        <h3>Кожаная юбка «Мила»</h3>
+        <div class="brand">Lichi</div>
+        <div class="price">2 400 ₽ <small>/ 3 дня</small></div>
+      </div>
+      <div class="item reveal">
+        <div class="item-img g6"><span class="tag">Локальный бренд</span></div>
+        <h3>Вязаный кардиган «Тепло»</h3>
+        <div class="brand">Natalia Drigant</div>
+        <div class="price">1 900 ₽ <small>/ 3 дня</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DESIGNERS ============ -->
+<section class="block">
+  <div class="container">
+    <div class="designers reveal">
+      <div>
+        <div class="eyebrow">Дизайнерам</div>
+        <h2 class="display">Продавай без склада<br>и без риска</h2>
+        <p>
+          Отдай вещь в VERTO — мы снимем фото, разместим в каталоге
+          и будем сдавать её десяткам клиентов. Ты получаешь доход
+          с каждой аренды и рекламу бренда.
+        </p>
+        <a href="#" class="btn btn-primary">Стать партнёром</a>
+      </div>
+      <ul>
+        <li><span>Выплата с каждой аренды</span><span>75%</span></li>
+        <li><span>Средний доход с вещи в год</span><span>₽ 42 000</span></li>
+        <li><span>Химчистка и ремонт</span><span>на нас</span></li>
+        <li><span>Фотосъёмка и продвижение</span><span>включены</span></li>
+        <li><span>Средний срок окупаемости</span><span>4 месяца</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="block" id="pricing">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Тарифы</div>
+      <h2 class="display">Плати за оборот,<br>а не за шкаф</h2>
+      <p>Все тарифы включают доставку, химчистку, страховку от повреждений.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="plan reveal">
+        <h3>Разовый</h3>
+        <div class="plan-price">от 800 ₽<small> / вещь</small></div>
+        <div class="plan-desc">Берёшь один раз — на свадьбу, свидание или фотосессию.</div>
+        <ul class="plan-features">
+          <li>Аренда на 3 дня</li>
+          <li>Курьер туда-обратно</li>
+          <li>Химчистка включена</li>
+          <li>Страховой депозит 20%</li>
+        </ul>
+        <a href="#" class="btn btn-ghost">Попробовать</a>
+      </div>
+      <div class="plan featured reveal">
+        <span class="plan-badge">Популярный</span>
+        <h3>Подписка Basic</h3>
+        <div class="plan-price">2 900 ₽<small> / мес</small></div>
+        <div class="plan-desc">Постоянный доступ к каталогу — для тех, кто живёт активно.</div>
+        <ul class="plan-features">
+          <li>3 вещи в месяц</li>
+          <li>Хранение в личном шкафу 5 дней</li>
+          <li>Скидка 15% на выкуп</li>
+          <li>Приоритетная доставка</li>
+          <li>Без депозита</li>
+        </ul>
+        <a href="#" class="btn btn-primary" style="background:var(--accent);">Оформить</a>
+      </div>
+      <div class="plan reveal">
+        <h3>Подписка Premium</h3>
+        <div class="plan-price">5 900 ₽<small> / мес</small></div>
+        <div class="plan-desc">Для тех, кому нужен новый образ каждую неделю.</div>
+        <ul class="plan-features">
+          <li>8 вещей в месяц</li>
+          <li>Хранение в личном шкафу 10 дней</li>
+          <li>Скидка 30% на выкуп</li>
+          <li>Персональный стилист</li>
+          <li>Доступ к закрытым дропам</li>
+        </ul>
+        <a href="#" class="btn btn-ghost">Оформить</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPACT ============ -->
+<section class="block">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Влияние</div>
+      <h2 class="display">Что мы меняем</h2>
+      <p>Каждая вещь, взятая в аренду вместо покупки, — это минус производство, минус упаковка, минус выбросы.</p>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-card reveal">
+        <div class="num">2 700 л</div>
+        <p>воды экономит одна аренда вместо покупки новой футболки</p>
+      </div>
+      <div class="impact-card reveal">
+        <div class="num">18 кг</div>
+        <p>CO₂ не попадает в атмосферу с каждой арендованной вещи</p>
+      </div>
+      <div class="impact-card reveal">
+        <div class="num">×12</div>
+        <p>срок жизни вещи увеличивается, когда её носят в обороте</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="block">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Вопросы</div>
+      <h2 class="display">Коротко о главном</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">Что если испорчу вещь? <span class="plus">+</span></button>
+        <div class="faq-a">Мелкие повреждения — пятна, зацепки, оторванная пуговица — покрывает страховка, входящая в стоимость. За серьёзные повреждения удерживаем стоимость ремонта, но не больше страхового депозита.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Как быстро привозят вещь? <span class="plus">+</span></button>
+        <div class="faq-a">По Москве в пределах МКАД — от 2 часов. По России — СДЭК, 2–4 дня. Все вещи приходят в фирменной упаковке и в отпаренном виде.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Можно выкупить понравившуюся вещь? <span class="plus">+</span></button>
+        <div class="faq-a">Да. Для подписчиков скидка 15–30% от розницы. Вещь приходит уже «обкатанной», поэтому цена ниже, а качество — то же.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Как вы чистите вещи? <span class="plus">+</span></button>
+        <div class="faq-a">Партнёрская профессиональная химчистка в Москве. Каждая вещь проходит обработку после возврата и упаковывается в защитный чехол. Для деликатных тканей — отдельный цикл.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Откуда берутся вещи? <span class="plus">+</span></button>
+        <div class="faq-a">38% — от локальных российских дизайнеров, которые отдают нам часть коллекции в оборот. Остальное — выкуплено у шоурумов и частных коллекционеров, а также люксовые вещи от партнёров.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="block">
+  <div class="container">
+    <div class="final-cta reveal">
+      <h2 class="display">Попробуй VERTO<br>в этом сезоне</h2>
+      <p>Первая аренда — бесплатно. Просто выбери вещь и надень её на выходных.</p>
+      <a href="#pricing" class="btn btn-primary">Забрать первую аренду</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">V<span>E</span>RTO</a>
+        <p>Библиотека одежды. Аренда дизайнерских вещей в Москве и Санкт-Петербурге.</p>
+      </div>
+      <div>
+        <h4>Сервис</h4>
+        <a href="#catalog">Каталог</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="#how">Доставка</a>
+        <a href="#">Возврат</a>
+      </div>
+      <div>
+        <h4>Компания</h4>
+        <a href="#">О проекте</a>
+        <a href="#designers">Дизайнерам</a>
+        <a href="#">Вакансии</a>
+        <a href="#">Блог</a>
+      </div>
+      <div>
+        <h4>Связь</h4>
+        <a href="mailto:hi@verto.ru">hi@verto.ru</a>
+        <a href="tel:+74951234567">+7 495 123-45-67</a>
+        <a href="#">Telegram</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 VERTO. Все права защищены.</div>
+      <div>ООО «Верто» · ИНН 7700000000 · Москва, ул. Большая Никитская, 12</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- Burger menu ----
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => navLinks.classList.remove('open'))
+  );
+
+  // ---- FAQ accordion ----
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ---- Reveal on scroll ----
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ---- Smooth scroll ----
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id.length < 2) return;
+      const target = document.querySelector(id);
+      if (target) {
+        e.preventDefault();
+        window.scrollTo({ top: target.offsetTop - 68, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+</body>
+        </html>
